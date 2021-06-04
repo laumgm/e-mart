@@ -1,0 +1,33 @@
+POST http://localhost:3000/api/users/signin 
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password": "1234"
+}
+
+###
+
+GET http://localhost:3000/api/users/600c44da768b8e27cca6b8d2
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/users/600d2459cda46231e03f89ca
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/products/
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/products/seed
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/products/:id
+Content-Type: application/json
+
+###
+POST http://localhost:3000/api/products/
+Content-Type: application/json
