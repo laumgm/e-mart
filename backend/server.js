@@ -13,11 +13,12 @@ const app= express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //DB Connection
-mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/marketplace', {
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
+
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
@@ -38,5 +39,5 @@ app.use((err, req, res, next) => {
   });
 const port= process.env.PORT || 3000;
 app.listen(port, ()=>{
-    console.log(`serve at http://localhost:${port}`);
+    console.log(`server running at http://localhost:${port}`);
 });

@@ -21,7 +21,7 @@ export default function PlaceOrderScreen(props) {
   cart.itemsPrice = toPrice(
     cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
   );
-  cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10);
+  cart.shippingPrice = cart.itemsPrice > 2500 ? toPrice(0) : toPrice(100);
   cart.taxPrice = toPrice(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
   
@@ -79,7 +79,7 @@ export default function PlaceOrderScreen(props) {
                             </Link>
                           </Col>
                           <Col>
-                            {item.qty} x ${item.price} = ${item.qty * item.price}
+                            {item.qty} x Php {item.price} = Php {item.qty * item.price}
                           </Col>
                         </Row>
                       </ListGroup.Item>

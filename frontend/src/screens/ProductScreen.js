@@ -23,7 +23,7 @@ export default function ProductScreen(props){
   };
   
   return(
-    <>
+    <div className='my-5'>
       <Container>
       { loading ? (<LoadingBox></LoadingBox>)
       : error ? (<MessageBox variant="danger"> {error} </MessageBox>)
@@ -92,6 +92,6 @@ export default function ProductScreen(props){
           </div>
         )}
       </Container>
-    </>
+    </div>
   )
 }

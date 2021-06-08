@@ -17,7 +17,11 @@ orderRouter.get(
       'user',
       'name'
     );
-    res.send(orders);
+    if(orders.length > 0) {
+      res.send(orders);
+    } else {
+      res.status(400).send({ message: 'Order list empty '})
+    }
   })
 );
 
@@ -26,7 +30,11 @@ orderRouter.get(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.find({ user: req.user._id });
-    res.send(orders);
+    if(orders.length > 0) {
+      res.send(orders);
+    } else {
+      res.status(400).send({ message: 'Order history empty'})
+    }
   })
 );
 

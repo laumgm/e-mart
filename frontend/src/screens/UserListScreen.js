@@ -4,7 +4,10 @@ import { Container, Table, Button } from 'react-bootstrap'
 import { deleteUser, listUsers } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { USER_DETAILS_RESET } from '../constants/userConstants';
+import { 
+  USER_DETAILS_RESET,
+  USER_DELETE_RESET,
+} from '../constants/userConstants';
 
 export default function UserListScreen(props) {
   const userList = useSelector((state) => state.userList);
@@ -24,10 +27,13 @@ export default function UserListScreen(props) {
         type: USER_DETAILS_RESET,
       });
 
+    if(successDelete) {
+      dispatch({ type: USER_DELETE_RESET })
+    }
   }, [dispatch, successDelete]);
   
   const deleteHandler = (user) => {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm(`Are you sure to delete ${user.name}?`)) {
       dispatch(deleteUser(user._id));
     }
   };
@@ -40,15 +46,13 @@ export default function UserListScreen(props) {
       </div>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
-      {successDelete && (
-        <MessageBox variant="success">User Deleted Successfully</MessageBox>
-      )}
+
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <Table striped bordered responsive className="table-sm pt-5">
+        <Table striped bordered responsive hover className="table-sm pt-5">
           <thead className='text-center'>
             <tr>
               <th>NAME</th>

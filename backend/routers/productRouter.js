@@ -12,7 +12,11 @@ productRouter.get(
     const seller = req.query.seller || '';
     const sellerFilter = seller ? { seller } : {};
     const products = await Product.find({ ...sellerFilter });
-    res.send(products);
+    if(products.length > 0) {
+      res.send(products);
+    } else {
+      res.status(400).send({ message: 'Product list empty '})
+    }
   })
 );
 
@@ -50,8 +54,6 @@ productRouter.post(
       category: 'sample category',
       brand: 'sample brand',
       countInStock: 0,
-      rating: 0,
-      numReview: 0,
       description: 'sample description',
     });
     const createdProduct = await product.save();

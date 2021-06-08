@@ -1,7 +1,29 @@
+import React from 'react';
+import {Spinner } from 'react-bootstrap';
+
 export default function LoadingBox(){
-    return(
-        <div className="loading">
-            <i className="fa fa-spinner fa-spin"></i>Loading...
-        </div>
-    );
+  return(
+    <div className='text-center py-4'>
+      <Spinner
+        className='spinner'
+        animation='grow'
+        role='status'
+        variant='info'
+      >
+      </Spinner>
+      <Spinner
+        className='spinner'
+        animation='grow'
+        variant='info'
+      >
+      </Spinner>
+      <Spinner
+        className='spinner'
+        animation='grow'
+        variant='info'
+      >
+      </Spinner>
+      <span className='sr-only'>Loading...</span>
+    </div>
+  );
 }

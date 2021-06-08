@@ -45,7 +45,6 @@ export default function OrderListScreen(props) {
           <Table striped bordered responsive className='table-sm'>
             <thead className='text-center'>
               <tr>
-                <th>ORDER ID</th>
                 <th>USER</th>
                 <th>DATE</th>
                 <th>TOTAL</th>
@@ -57,7 +56,6 @@ export default function OrderListScreen(props) {
             <tbody className='text-center'>
               {orders.map((order) => (
                 <tr key={order._id}>
-                  <td>{order._id}</td>
                   <td>{order.user.name}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>{order.totalPrice.toFixed(2)}</td>

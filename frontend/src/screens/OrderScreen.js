@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Button, ListGroup, Row, Col, Image } from 'react-bootstrap'
 import { deliverOrder, detailsOrder, payOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
@@ -39,7 +39,7 @@ export default function OrderScreen(props) {
     success: successDeliver,
   } = orderDeliver;
 
-
+  const history = useHistory()
   const dispatch = useDispatch();
   useEffect(() => {
     const addPayPalScript = async () => {
@@ -74,6 +74,10 @@ export default function OrderScreen(props) {
     }, [dispatch, orderId, sdkReady, successPay, successDeliver, order]);
 
   
+    const goBack = () => {
+      history.goBack()
+    }
+
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(order, paymentResult));
     };
@@ -84,10 +88,10 @@ export default function OrderScreen(props) {
   return loading ? ( <LoadingBox></LoadingBox> ) 
   : error ? ( <MessageBox variant="danger">{error}</MessageBox> ) 
   : (
-    <Container>
-      <Link to={redirect ? `/placeorder?redirect=${redirect}` : '/placeorder'} 
+    <Container className='py-5'>
+      <Button onClick={goBack}
         className='btn btn-light my-3'>Go Back
-      </Link>
+      </Button>
       <div className='pt-3'>
         <h3 className='text-center pb-3'>ORDER DETAILS</h3>
         <Row className='d-flex align-items-start'>
@@ -195,7 +199,7 @@ export default function OrderScreen(props) {
                     </Row>
                   </ListGroup.Item>
     
-                  {!order.isPaid && (
+                  {!order.isPaid && order.paymentMethod === 'PayPal' && (
                     <ListGroup.Item>
                       {!sdkReady ? (
                         <LoadingBox></LoadingBox>

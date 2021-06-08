@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Table, Button } from 'react-bootstrap'
 import {
@@ -15,6 +15,9 @@ import {
 
 export default function ProductListScreen(props) {
   const sellerMode = props.match.path.indexOf('/seller') >= 0;
+
+  const [addProduct, setAddProduct] = useState(false)
+
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
@@ -59,14 +62,15 @@ export default function ProductListScreen(props) {
       dispatch(deleteProduct(product._id));
     }
   };
+
   const createHandler = () => {
     dispatch(createProduct());
   };
   
   return (
     <div>
-      <Container className='pt-5'>
-        <div className='d-flex justify-content-between current-screen'>
+      <Container className='py-5'>
+        <div className='d-flex justify-content-between current-screen pb-3'>
           <h3 className='text-center'>PRODUCTS</h3>
           <Button type="button" variant="primary" className='btn-sm' onClick={createHandler}>
             + Create Product
@@ -83,7 +87,7 @@ export default function ProductListScreen(props) {
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <Table bordered striped responsive className="text-center table-sm">
+          <Table bordered striped responsive hover className="text-center table-sm">
             <thead>
               <tr>
                 <th>NAME</th>
