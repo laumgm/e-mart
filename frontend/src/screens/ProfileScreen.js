@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom'
+import { Container, Form, Button } from 'react-bootstrap';
 import { detailsUser, updateUserProfile } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 import LoadingBox from '../components/LoadingBox';
@@ -25,6 +26,8 @@ export default function ProfileScreen() {
     error: errorUpdate,
     loading: loadingUpdate,
   } = userUpdateProfile;
+
+  const history = useHistory();
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -62,15 +65,20 @@ export default function ProfileScreen() {
     }
   };
   
+  const goBack = () => history.goBack()
+
   return (
-<div className='pt-5'>
-      <FormContainer>
-        <Form>
-          <h3 className='text-center'>USER PROFILE</h3>
-          {loading ? (
-            <LoadingBox></LoadingBox>
+    <Container className='pt-5'>
+      <Button onClick={goBack}
+        className='btn btn-light ml-5 my-3'>Go Back
+      </Button>
+        <FormContainer>
+          <Form>
+            <h3 className='text-center'>USER PROFILE</h3>
+            {loading ? (
+              <LoadingBox></LoadingBox>
             ) : error ? (
-            <MessageBox variant="danger">{error}</MessageBox>
+              <MessageBox variant="danger">{error}</MessageBox>
             ) : (
             <>
               {loadingUpdate && <LoadingBox></LoadingBox>}
@@ -165,6 +173,6 @@ export default function ProfileScreen() {
           )}
         </Form>
       </FormContainer>
-    </div>
+    </Container>
   );
 }

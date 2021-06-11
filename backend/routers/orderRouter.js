@@ -1,6 +1,8 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js' 
+// for deducting quantity of product after payment
 import { isAdmin, isAuth, isSellerOrAdmin } from '../utils.js';
 
 const orderRouter = express.Router();
@@ -99,6 +101,28 @@ orderRouter.put(
   })
 );
 
+orderRouter.put(
+  '/:id/pay-cod',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      console.log(order)
+      order.isPaid = true;
+      order.paidAt = Date.now();
+      order.paymentResult = {
+        status: 'COMPLETED',
+        update_time: Date.now(),
+      };
+      const updatedOrder = await order.save();
+      console.log(updatedOrder)
+      res.send({ message: 'Order Paid', order: updatedOrder });
+    } else {
+      res.status(404).send({ message: 'Order Not Found' });
+    }
+  })
+);
+
 orderRouter.delete(
   '/:id',
   isAuth,
@@ -123,7 +147,10 @@ orderRouter.put(
     if (order) {
       order.isDelivered = true;
       order.deliveredAt = Date.now();
-
+      if (order.paymentMethod === 'Cash On Delivery') {
+        order.isPaid = true;
+        order.paidAt = Date.now();
+      }
       const updatedOrder = await order.save();
       res.send({ message: 'Order Delivered', order: updatedOrder });
     } else {

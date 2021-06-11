@@ -6,14 +6,16 @@ import Product from '../components/Product';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
-export default function HomeScreen() {
+export default function HomeScreen({ match }) {
+  const keyword = match.params.keyword
   const dispatch = useDispatch();
+
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts({}));
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
   
   return (
     <Container >
@@ -24,7 +26,7 @@ export default function HomeScreen() {
     ) : (
       <Row className='d-flex align-items-start'>
         {products.map((product) => (
-          <Col sm={12} md={6} lg={4} xl={3} key={product._id}> {/*sm={12} md={6} lg={4} xl={3}*/}
+          <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
                 {/* components can take in props */}
                 <Product product={product} />
           </Col>

@@ -32,14 +32,11 @@ export default function CartScreen(props) {
   return (
     <>
       <Container className='py-5'>
-      <Button onClick={() => props.history.push('/')}
-        className='btn my-3' variant='secondary'>Go Shop
-      </Button>
         <h3>SHOPPING CART</h3>
         <Row className='d-flex align-items-start'>
           <Col>
             {cartItems.length === 0 ? (
-              <MessageBox>
+              <MessageBox variant='danger'>
                 Cart is empty. <Link to="/">Go Shopping</Link>
               </MessageBox>
             ) : (

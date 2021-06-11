@@ -28,20 +28,16 @@ function App() {
     <BrowserRouter>
         <Header />
         <main>
-          <Route path="/cart/:id?" component={CartScreen}></Route>
-          <Route path="/product/:id" component={ProductScreen} exact></Route>
-          <Route
-            path="/product/:id/edit"
-            component={ProductEditScreen}
-            exact
-          ></Route>
-          <Route path="/signin" component={SigninScreen}></Route>
-          <Route path="/register" component={RegisterScreen}></Route>
-          <Route path="/shipping" component={ShippingAddressScreen}></Route>
-          <Route path="/payment" component={PaymentMethodScreen}></Route>
-          <Route path="/placeorder" component={PlaceOrderScreen}></Route>
-          <Route path="/order/:id" component={OrderScreen}></Route>
-          <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+          <Route path="/cart/:id?" component={CartScreen} />
+          <Route path="/product/:id" component={ProductScreen} exact />
+          <Route path="/product/:id/edit" component={ProductEditScreen} exact />
+          <Route path="/signin" component={SigninScreen} />
+          <Route path="/register" component={RegisterScreen} />
+          <Route path="/shipping" component={ShippingAddressScreen} />
+          <Route path="/payment" component={PaymentMethodScreen} />
+          <Route path="/placeorder" component={PlaceOrderScreen} />
+          <Route path="/order/:id" component={OrderScreen} />
+          <Route path="/orderhistory" component={OrderHistoryScreen} />
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
@@ -70,7 +66,8 @@ function App() {
             component={OrderListScreen}
           ></SellerRoute>
 
-          <Route path="/" component={HomeScreen} exact></Route>
+          <Route path="/search/:keyword" component={HomeScreen} exact />
+          <Route path="/" component={HomeScreen} exact />
         </main>
         <Footer />
     </BrowserRouter>

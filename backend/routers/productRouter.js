@@ -9,13 +9,24 @@ const productRouter = express.Router();
 productRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const seller = req.query.seller || '';
-    const sellerFilter = seller ? { seller } : {};
-    const products = await Product.find({ ...sellerFilter });
+    // const seller = req.query.seller || '';
+    // const sellerFilter = seller ? { seller } : {};
+    // const products = await Product.find({ ...sellerFilter });
+    const keyword = req.query.keyword 
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i'
+        }
+      } 
+    : {}
+
+    const products = await Product.find({...keyword});
     if(products.length > 0) {
       res.send(products);
     } else {
-      res.status(400).send({ message: 'Product list empty '})
+      console.log('product empty')
+      res.status(400).send({ message: 'Product list empty' })
     }
   })
 );

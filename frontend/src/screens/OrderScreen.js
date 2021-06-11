@@ -24,14 +24,17 @@ export default function OrderScreen(props) {
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
+
   const orderPay = useSelector((state) => state.orderPay);
   const {
     loading: loadingPay,
     error: errorPay,
     success: successPay,
   } = orderPay;
+
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const {
     loading: loadingDeliver,
@@ -39,7 +42,7 @@ export default function OrderScreen(props) {
     success: successDeliver,
   } = orderDeliver;
 
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     const addPayPalScript = async () => {
@@ -82,7 +85,11 @@ export default function OrderScreen(props) {
         dispatch(payOrder(order, paymentResult));
     };
     const deliverHandler = () => {
-      dispatch(deliverOrder(order._id));
+      if(order.paymentMethod === 'Cash On Delivery'){
+        dispatch(deliverOrder(order._id))
+      } else {
+        dispatch(deliverOrder(order._id));
+      }
     };
   
   return loading ? ( <LoadingBox></LoadingBox> ) 
@@ -109,7 +116,7 @@ export default function OrderScreen(props) {
                   </p>
                   {order.isDelivered ? (
                     <MessageBox variant="success">
-                      Delivered at {order.deliveredAt}
+                      Delivered at {order.deliveredAt.substring(0, 10)}
                     </MessageBox>
                   ) : (
                     <MessageBox variant="danger">Not Delivered</MessageBox>
@@ -125,7 +132,7 @@ export default function OrderScreen(props) {
                     </p>
                     {order.isPaid ? (
                       <MessageBox variant="success">
-                        Paid at {order.paidAt}
+                        Paid at {order.paidAt.substring(0, 10)}
                       </MessageBox>
                     ) : (
                       <MessageBox variant="danger">Not Paid</MessageBox>
@@ -218,7 +225,9 @@ export default function OrderScreen(props) {
                       )}
                     </ListGroup.Item>
                   )}
-                  {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  {userInfo.isAdmin 
+                  && (order.isPaid || order.paymentMethod === 'Cash On Delivery')
+                  && !order.isDelivered && (
                     <ListGroup.Item>
                       {loadingDeliver && <LoadingBox></LoadingBox>}
                       {errorDeliver && (
