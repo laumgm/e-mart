@@ -6,6 +6,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { useEffect, useState } from 'react';
 import {detailsProduct} from '../actions/productActions'
+import Meta from '../components/Meta'
 
 export default function ProductScreen(props){
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export default function ProductScreen(props){
       : error ? (<MessageBox variant="danger"> {error} </MessageBox>)
       : (
         <div>
+          <Meta title={product.name} />
           <Link to='/' className='btn btn-light my-3'>Go Back</Link>
           <Row>
               <Col>

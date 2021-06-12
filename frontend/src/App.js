@@ -38,12 +38,20 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistory" component={OrderHistoryScreen} />
+          <Route path="/search/:keyword" component={HomeScreen} exact/>
+          <Route path="/page/:pageNumber" component={HomeScreen} exact/>
+          <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact/>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
           ></PrivateRoute>
           <AdminRoute
             path="/admin/productlist"
+            component={ProductListScreen}
+            exact
+          ></AdminRoute>
+          <AdminRoute
+            path="/admin/productlist/:pageNumber"
             component={ProductListScreen}
             exact
           ></AdminRoute>

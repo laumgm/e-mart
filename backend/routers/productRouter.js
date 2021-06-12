@@ -12,6 +12,8 @@ productRouter.get(
     // const seller = req.query.seller || '';
     // const sellerFilter = seller ? { seller } : {};
     // const products = await Product.find({ ...sellerFilter });
+    const pageSize = 4
+    const page = Number(req.query.pageNumber) || 1
     const keyword = req.query.keyword 
     ? {
         name: {
@@ -21,9 +23,10 @@ productRouter.get(
       } 
     : {}
 
-    const products = await Product.find({...keyword});
+    const count = await Product.count({ ...keyword})
+    const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize * (page - 1))
     if(products.length > 0) {
-      res.send(products);
+      res.send({products, page, pages: Math.ceil(count / pageSize)});
     } else {
       console.log('product empty')
       res.status(400).send({ message: 'Product list empty' })

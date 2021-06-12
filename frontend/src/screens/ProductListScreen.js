@@ -12,14 +12,16 @@ import {
   PRODUCT_CREATE_RESET,
   PRODUCT_DELETE_RESET,
 } from '../constants/productConstants';
+import Paginate from '../components/Paginate'
 
 export default function ProductListScreen(props) {
+  const pageNumber = props.match.params.pageNumber || 1
   const sellerMode = props.match.path.indexOf('/seller') >= 0;
 
   const [addProduct, setAddProduct] = useState(false)
 
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages} = productList;
 
   const productCreate = useSelector((state) => state.productCreate);
   const {
@@ -46,7 +48,7 @@ export default function ProductListScreen(props) {
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
-    dispatch(listProducts({ seller: sellerMode ? userInfo._id : '' }));
+    dispatch(listProducts({ seller: sellerMode ? userInfo._id : ''}, pageNumber));
   }, [
     createdProduct,
     dispatch,
@@ -55,6 +57,7 @@ export default function ProductListScreen(props) {
     successCreate,
     successDelete,
     userInfo._id,
+    pageNumber,
   ]);
 
   const deleteHandler = (product) => {
@@ -87,6 +90,7 @@ export default function ProductListScreen(props) {
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
+          <>
           <Table bordered striped responsive hover className="text-center table-sm">
             <thead>
               <tr>
@@ -127,6 +131,8 @@ export default function ProductListScreen(props) {
               ))}
             </tbody>
           </Table>
+          <Paginate pages={pages} page={page} isAdmin={true} />
+          </>
         )}
       </Container>
     </div>
