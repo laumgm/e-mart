@@ -12,37 +12,59 @@ import { Link } from 'react-router-dom'
 
 export default function HomeScreen({ match }) {
   const keyword = match.params.keyword
+  const category = match.params.category
   const pageNumber = match.params.pageNumber || 1
+  
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
 
   useEffect(() => {
-    dispatch(listProducts(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber]);
+    dispatch(listProducts(keyword, pageNumber, category));
+  }, [dispatch, keyword, category, pageNumber]);
   
   return (
-    <Container>
+    <Container className='my-5'>
       <Meta />
-      {!keyword ? (<h1 className="mt-5">Latest Products</h1>) : (<Link to = '/' className='btn btn-light my-3'>Go Back</Link>)}
-    {loading ? (
-      <LoadingBox></LoadingBox>
-    ) : error ? (
-      <MessageBox variant="danger">{error}</MessageBox>
-    ) : (
-      <>
-      <Row className='d-flex align-items-start'>
-        {products.map((product) => (
-          <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
+      {keyword 
+        ? (
+          <>
+            <Link to = '/' className='btn btn-light my-3'>Go Back</Link>
+            <h5>You searched for {keyword}...</h5>
+          </>
+        ) 
+        : category 
+        ? (
+          <>
+            <Link to = '/' className='btn btn-light my-3'>Go Back</Link>
+            <h5>Results for {category.charAt(0).toUpperCase() + category.slice(1)}..</h5>
+          </>
+        )
+        : (<h3>Latest Products</h3>) 
+      }
+      {loading ? (
+        <LoadingBox></LoadingBox>
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : (
+        <>
+          <Row className='d-flex flex-wrap justify-content-start'>
+            {products.map((product) => (
+              <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
                 {/* components can take in props */}
                 <Product product={product} />
-          </Col>
-        ))}
-      </Row>
-      <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/>
-      </>
-    )}
-  </Container>
+              </Col>
+            ))}
+          </Row>
+          <Paginate 
+            pages={pages} 
+            page={page} 
+            keyword={keyword ? keyword : ''}
+            category={category ? category : ''}
+          />
+        </>
+      )}
+    </Container>
   );
 }

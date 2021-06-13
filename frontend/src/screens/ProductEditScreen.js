@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { 
   detailsProduct, 
@@ -32,12 +32,14 @@ export default function ProductEditScreen(props) {
     error: errorUpdate,
     success: successUpdate,
   } = productUpdate;
-
+  
+  const history = useHistory()
   const dispatch = useDispatch();
   
   useEffect(() => {
     if (successUpdate) {
-      props.history.push('/admin/productlist');
+      // props.history.push('/admin/productlist');
+      history.goBack();
     }
     if (!product || product._id !== productId || successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
@@ -69,6 +71,7 @@ export default function ProductEditScreen(props) {
       );
   };
 
+  
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [errorUpload, setErrorUpload] = useState('');
 
@@ -96,9 +99,15 @@ export default function ProductEditScreen(props) {
 
   const discardHandler = () => {
     if(window.confirm('Are you sure?')) {
-      if (!loadingUpdate) {
-        dispatch(deleteProduct(productId))
-        props.history.push('/admin/productlist')
+      console.log('discard', loadingUpdate)
+      console.log('!loadingUpdate', loadingUpdate === undefined ? 'undefined' : 'hindi undef')
+      console.log('loadingUpdate', loadingUpdate)
+      if (loadingUpdate === undefined) {
+        // console.log('delete')
+        // dispatch(deleteProduct(productId))
+        history.goBack()
+      } else {
+        history.goBack()
       }
     }
   }

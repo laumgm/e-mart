@@ -17,13 +17,13 @@ import {
   PRODUCT_DELETE_SUCCESS,
 } from '../constants/productConstants';
 
-export const listProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
+export const listProducts = (keyword = '', pageNumber = '', category='') => async (dispatch) => {
   dispatch({
     type: PRODUCT_LIST_REQUEST,
   });
   
   try {
-    const { data } = await Axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+    const { data } = await Axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}&category=${category}`);
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message });

@@ -23,7 +23,28 @@ footer{
   background-color: #f2f2f2;
 }
 
+.category{
+  height: 38px;
+  border: none;
+  /* margin-left: 80px; */
+}
 
+.searchbox-container{
+  margin-left: 40px;
+}
+
+.searchbox{
+  border-radius: 0px !important;
+  width: 350px !important;
+}
+
+.fa-search{
+  border-radius: 0px !important;
+}
+
+.active-page{
+  background-color: gray;
+}
 
 .spinner{
   width: 20px;

@@ -12,7 +12,7 @@ productRouter.get(
     // const seller = req.query.seller || '';
     // const sellerFilter = seller ? { seller } : {};
     // const products = await Product.find({ ...sellerFilter });
-    const pageSize = 4
+    const pageSize = 20
     const page = Number(req.query.pageNumber) || 1
     const keyword = req.query.keyword 
     ? {
@@ -23,8 +23,29 @@ productRouter.get(
       } 
     : {}
 
-    const count = await Product.count({ ...keyword})
-    const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize * (page - 1))
+    const category = req.query.category
+    ? {
+      category: {
+        $regex: req.query.category,
+        $options: 'i'
+      }
+    }
+    : {} 
+
+    const count = await Product.countDocuments({...keyword, ...category})
+    const products = await Product.find({...keyword, ...category})
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+
+    if (category) {
+      console.log('be cat', category)
+      console.log(req.query.keyword)
+      console.log(products.length)
+    } else {
+      console.log('be key', keyword)
+      console.log(req.query.keyword)
+      console.log(products.length)
+    }
     if(products.length > 0) {
       res.send({products, page, pages: Math.ceil(count / pageSize)});
     } else {

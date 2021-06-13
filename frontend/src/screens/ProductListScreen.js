@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Table, Button } from 'react-bootstrap'
+import { Container, Table, Button, Row, Col, Form } from 'react-bootstrap'
 import {
   createProduct,
   deleteProduct,
   listProducts,
 } from '../actions/productActions';
+import SearchBox from '../components/SearchBox';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import {
@@ -15,6 +17,8 @@ import {
 import Paginate from '../components/Paginate'
 
 export default function ProductListScreen(props) {
+  const [keyword, setKeyword] = useState('')
+  const [category, setCategory] = useState('all')
   const pageNumber = props.match.params.pageNumber || 1
   const sellerMode = props.match.path.indexOf('/seller') >= 0;
 
@@ -37,10 +41,13 @@ export default function ProductListScreen(props) {
     error: errorDelete,
     success: successDelete,
   } = productDelete;
+
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
+
   const dispatch = useDispatch();
   useEffect(() => {
+
     if (successCreate) {
       dispatch({ type: PRODUCT_CREATE_RESET });
       props.history.push(`/product/${createdProduct._id}/edit`);
@@ -75,6 +82,7 @@ export default function ProductListScreen(props) {
       <Container className='py-5'>
         <div className='d-flex justify-content-between current-screen pb-3'>
           <h3 className='text-center'>PRODUCTS</h3>
+          
           <Button type="button" variant="primary" className='btn-sm' onClick={createHandler}>
             + Create Product
           </Button>

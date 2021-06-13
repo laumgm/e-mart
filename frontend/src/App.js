@@ -38,9 +38,6 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistory" component={OrderHistoryScreen} />
-          <Route path="/search/:keyword" component={HomeScreen} exact/>
-          <Route path="/page/:pageNumber" component={HomeScreen} exact/>
-          <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact/>
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}
@@ -50,6 +47,11 @@ function App() {
             component={ProductListScreen}
             exact
           ></AdminRoute>
+          {/* <AdminRoute
+            path="/admin/productlist/search/:keyword"
+            component={ProductListScreen}
+            exact
+          ></AdminRoute> */}
           <AdminRoute
             path="/admin/productlist/:pageNumber"
             component={ProductListScreen}
@@ -75,6 +77,10 @@ function App() {
           ></SellerRoute>
 
           <Route path="/search/:keyword" component={HomeScreen} exact />
+          <Route path="/page/:pageNumber" component={HomeScreen} exact/>
+          <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact/>
+          <Route path="/category/:category/page/:pageNumber" component={HomeScreen} exact/>
+          <Route path="/category/:category" component={HomeScreen} exact />
           <Route path="/" component={HomeScreen} exact />
         </main>
         <Footer />
