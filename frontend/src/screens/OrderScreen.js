@@ -225,7 +225,7 @@ export default function OrderScreen(props) {
                       )}
                     </ListGroup.Item>
                   )}
-                  {userInfo.isAdmin 
+                  {(userInfo.isAdmin || userInfo.isSeller)
                   && (order.isPaid || order.paymentMethod === 'Cash On Delivery')
                   && !order.isDelivered && (
                     <ListGroup.Item>
