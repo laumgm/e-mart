@@ -84,7 +84,9 @@ orderRouter.put(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
+    
     if (order) {
+      console.log('paypal', order)
       order.isPaid = true;
       order.paidAt = Date.now();
       order.paymentResult = {
@@ -93,6 +95,13 @@ orderRouter.put(
         update_time: req.body.update_time,
         email_address: req.body.email_address,
       };
+      for(const item of order.orderItems) {
+        const product = await Product.findOne({ "name": item.name })
+        const newCountInStock = product.countInStock - item.qty
+        product.countInStock = newCountInStock
+        const updatedProduct = await product.save()
+      }
+
       const updatedOrder = await order.save();
       res.send({ message: 'Order Paid', order: updatedOrder });
     } else {
@@ -101,27 +110,33 @@ orderRouter.put(
   })
 );
 
-orderRouter.put(
-  '/:id/pay-cod',
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
-    if (order) {
-      console.log(order)
-      order.isPaid = true;
-      order.paidAt = Date.now();
-      order.paymentResult = {
-        status: 'COMPLETED',
-        update_time: Date.now(),
-      };
-      const updatedOrder = await order.save();
-      console.log(updatedOrder)
-      res.send({ message: 'Order Paid', order: updatedOrder });
-    } else {
-      res.status(404).send({ message: 'Order Not Found' });
-    }
-  })
-);
+// orderRouter.put(
+//   '/:id/pay-cod',
+//   isAuth,
+//   expressAsyncHandler(async (req, res) => {
+//     const order = await Order.findById(req.params.id);
+//     if (order) {
+//       console.log('pay cod', order)
+//       order.isPaid = true;
+//       order.paidAt = Date.now();
+//       order.paymentResult = {
+//         status: 'COMPLETED',
+//         update_time: Date.now(),
+//       };
+//       for(const item of order.orderItems) {
+//         console.log('qty', item.qty)
+//         const product = await Product.findOne({ "name": item.name })
+//         console.log(product.qty -= item.qty)
+//       }
+      
+//       const updatedOrder = await order.save();
+//       console.log(updatedOrder)
+//       res.send({ message: 'Order Paid', order: updatedOrder });
+//     } else {
+//       res.status(404).send({ message: 'Order Not Found' });
+//     }
+//   })
+// );
 
 orderRouter.delete(
   '/:id',
@@ -150,8 +165,15 @@ orderRouter.put(
       if (order.paymentMethod === 'Cash On Delivery') {
         order.isPaid = true;
         order.paidAt = Date.now();
+        for(const item of order.orderItems) {
+          const product = await Product.findOne({ "name": item.name })
+          const newCountInStock = product.countInStock - item.qty
+          product.countInStock = newCountInStock
+          const updatedProduct = await product.save()
+        }
       }
       const updatedOrder = await order.save();
+      
       res.send({ message: 'Order Delivered', order: updatedOrder });
     } else {
       res.status(404).send({ message: 'Order Not Found' });

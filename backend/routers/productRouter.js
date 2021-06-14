@@ -37,15 +37,6 @@ productRouter.get(
       .limit(pageSize)
       .skip(pageSize * (page - 1))
 
-    if (category) {
-      console.log('be cat', category)
-      console.log(req.query.keyword)
-      console.log(products.length)
-    } else {
-      console.log('be key', keyword)
-      console.log(req.query.keyword)
-      console.log(products.length)
-    }
     if(products.length > 0) {
       res.send({products, page, pages: Math.ceil(count / pageSize)});
     } else {
