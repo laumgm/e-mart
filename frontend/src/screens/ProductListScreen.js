@@ -154,7 +154,11 @@ export default function ProductListScreen(props) {
               ))}
             </tbody>
           </Table>
-          <Paginate pages={pages} page={page} isAdmin={true} />
+          <Paginate 
+            pages={pages} 
+            page={page} 
+            isAdmin={userInfo.isAdmin} 
+            isSeller={userInfo.isSeller} />
           </>
         )}
       </Container>

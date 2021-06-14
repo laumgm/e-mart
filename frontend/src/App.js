@@ -68,8 +68,14 @@ function App() {
             component={UserEditScreen}
           ></AdminRoute>
           <SellerRoute
+            path="/productlist/seller/:pageNumber"
+            component={ProductListScreen}
+            exact
+          ></SellerRoute>
+          <SellerRoute
             path="/productlist/seller"
             component={ProductListScreen}
+            exact
           ></SellerRoute>
           <SellerRoute
             path="/orderlist/seller"
