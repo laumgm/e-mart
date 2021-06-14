@@ -112,6 +112,8 @@ export default function ProductListScreen(props) {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
+                <th>Stock</th>
+                <th>Status</th>
                 <th></th>
               </tr>
             </thead>
@@ -129,6 +131,11 @@ export default function ProductListScreen(props) {
                   <td>{product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
+                  <td>{product.countInStock}</td>
+                  <td>{(product.countInStock > 0) 
+                    ? <div className='text-success'>available</div> 
+                    : <div className='text-danger'>restock</div> }
+                  </td>
                   <td>
                     <Button
                       type="button"
