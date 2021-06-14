@@ -3,10 +3,6 @@ import { Pagination } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 const Paginate = ({ pages, page, isAdmin=false, isSeller=false, keyword = '', category = '' }) => {
-    useEffect(() => {
-        console.log('paginate isAdmin', isAdmin)
-        console.log('paginate isSeller', isSeller)
-    })
     return pages > 1 && (
         <Pagination>
             {[...Array(pages).keys()].map(x => (

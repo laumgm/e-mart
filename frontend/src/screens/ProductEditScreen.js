@@ -99,12 +99,8 @@ export default function ProductEditScreen(props) {
 
   const discardHandler = () => {
     if(window.confirm('Are you sure?')) {
-      console.log('discard', loadingUpdate)
-      console.log('!loadingUpdate', loadingUpdate === undefined ? 'undefined' : 'hindi undef')
-      console.log('loadingUpdate', loadingUpdate)
-      if (loadingUpdate === undefined) {
-        // console.log('delete')
-        // dispatch(deleteProduct(productId))
+      if (name.includes('sample')) {
+        dispatch(deleteProduct(productId))
         history.goBack()
       } else {
         history.goBack()
