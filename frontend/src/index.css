@@ -38,6 +38,10 @@ footer{
   width: 280px !important;
 }
 
+.searchbox-admin{
+  width: 500px !important;
+}
+
 .fa-search{
   border-radius: 0px !important;
 }

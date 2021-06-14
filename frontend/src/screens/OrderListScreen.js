@@ -23,7 +23,8 @@ export default function OrderListScreen(props) {
   
   useEffect(() => {
     dispatch({ type: ORDER_DELETE_RESET });
-    dispatch(listOrders({ seller: sellerMode ? userInfo._id : '' }));
+    // { seller: sellerMode ? userInfo._id : '' }
+    dispatch(listOrders());
   }, [dispatch, sellerMode, successDelete, userInfo._id]);
   const deleteHandler = (order) => {
     if (window.confirm('Are you sure to delete?')) {
@@ -46,17 +47,19 @@ export default function OrderListScreen(props) {
             <thead className='text-center'>
               <tr>
                 <th>USER</th>
+                <th>SHIPPING ADDRESS</th>
                 <th>DATE</th>
                 <th>TOTAL</th>
                 <th>PAID</th>
                 <th>DELIVERED</th>
-                <th>ACTIONS</th>
+                <th></th>
               </tr>
             </thead>
             <tbody className='text-center'>
               {orders.map((order) => (
                 <tr key={order._id}>
                   <td>{order.user.name}</td>
+                  <td>{order.shippingAddress.city}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>{order.totalPrice.toFixed(2)}</td>
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : <i className='fas fa-times' />}</td>
@@ -76,14 +79,16 @@ export default function OrderListScreen(props) {
                     >
                       <i className='fas fa-edit' />
                     </Button>
-                    <Button
-                      type="button"
-                      variant='danger'
-                      className="btn-sm"
-                      onClick={() => deleteHandler(order)}
-                    >
-                      <i className='fas fa-trash' />
-                    </Button>
+                    {userInfo.isAdmin && (
+                      <Button
+                        type="button"
+                        variant='danger'
+                        className="btn-sm"
+                        onClick={() => deleteHandler(order)}
+                      >
+                        <i className='fas fa-trash' />
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}

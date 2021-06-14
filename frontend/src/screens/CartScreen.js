@@ -32,6 +32,7 @@ export default function CartScreen(props) {
   return (
     <>
       <Container className='py-5'>
+      
         <h3>SHOPPING CART</h3>
         <Row className='d-flex align-items-start'>
           <Col>
@@ -75,6 +76,7 @@ export default function CartScreen(props) {
                       <div>
                         <Button
                           type="button"
+                          variant='danger'
                           onClick={() => removeFromCartHandler(item.product)}
                         >
                           Delete
@@ -85,6 +87,12 @@ export default function CartScreen(props) {
                 ))}
               </ListGroup>
             )}
+            <Button 
+              className='mt-3'
+              onClick={() => props.history.push('/')}
+            >
+              Shop more
+            </Button>
           </Col>
     
           <Col>
@@ -100,7 +108,7 @@ export default function CartScreen(props) {
                   <Button
                     type="button"
                     onClick={checkoutHandler}
-                    className="primary block mt-3"
+                    className="block mt-3"
                     disabled={cartItems.length === 0}
                     >
                     Proceed to Checkout

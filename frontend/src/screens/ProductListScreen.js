@@ -7,7 +7,6 @@ import {
   deleteProduct,
   listProducts,
 } from '../actions/productActions';
-import SearchBox from '../components/SearchBox';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import {
@@ -55,7 +54,8 @@ export default function ProductListScreen(props) {
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
-    dispatch(listProducts({ seller: sellerMode ? userInfo._id : ''}, pageNumber));
+    // { seller: sellerMode ? userInfo._id : ''}
+    dispatch(listProducts('', pageNumber));
   }, [
     createdProduct,
     dispatch,
@@ -82,7 +82,13 @@ export default function ProductListScreen(props) {
       <Container className='py-5'>
         <div className='d-flex justify-content-between current-screen pb-3'>
           <h3 className='text-center'>PRODUCTS</h3>
-          
+          <input
+            type='text'
+            value={keyword}
+            placeholder='Search...'
+            className='searchbox-admin'
+            onChange={(e) => { setKeyword(e.target.value) }}
+          />
           <Button type="button" variant="primary" className='btn-sm' onClick={createHandler}>
             + Create Product
           </Button>
@@ -106,11 +112,18 @@ export default function ProductListScreen(props) {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
-                <th>ACTIONS</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {
+              products.filter((item) => {
+                if (keyword == '') {
+                  return item
+                } else if (item.name.toLowerCase().includes(keyword.toLowerCase())){
+                  return item
+                }
+              }).map((product) => (
                 <tr key={product._id}>
                   <td>{product.name}</td>
                   <td>{product.price}</td>
@@ -126,14 +139,16 @@ export default function ProductListScreen(props) {
                     >
                       <i className='fas fa-edit' />
                     </Button>
-                    <Button
-                      type="button"
-                      variant='danger'
-                      className="btn-sm"
-                      onClick={() => deleteHandler(product)}
-                    >
-                      <i className='fas fa-trash' />
-                    </Button>
+                    {userInfo.isAdmin && (
+                      <Button
+                        type="button"
+                        variant='danger'
+                        className="btn-sm"
+                        onClick={() => deleteHandler(product)}
+                      >
+                        <i className='fas fa-trash' />
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}

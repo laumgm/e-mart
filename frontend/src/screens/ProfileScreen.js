@@ -128,7 +128,7 @@ export default function ProfileScreen() {
                 ></Form.Control>
               </Form.Group>
 
-              {user.isSeller && (
+              {/* {user.isSeller && (
                 <>
                   <div className="row currentScreen">
                     <h2>SELLER</h2>
@@ -164,7 +164,7 @@ export default function ProfileScreen() {
                     ></Form.Control>
                   </Form.Group>
                 </>
-              )}
+              )} */}
               
               <Button className="primary" type="submit" onClick={submitHandler}>
                 Update

@@ -45,14 +45,23 @@ export default function Header() {
                   <LinkContainer to="/profile">
                     <NavDropdown.Item className='dropdown-item'>Profile</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/orderhistory">
-                    <NavDropdown.Item className='dropdown-item'>Order History</NavDropdown.Item>
-                  </LinkContainer>
-                  {/* <LinkContainer to='/'> */}
-                    <NavDropdown.Item className='dropdown-item-signout' onClick={signoutHandler}>
-                      Sign out
-                    </NavDropdown.Item>
-                  {/* </LinkContainer> */}
+                  {!userInfo.isSeller ? (
+                    <LinkContainer to="/orderhistory">
+                      <NavDropdown.Item className='dropdown-item'>Order History</NavDropdown.Item>
+                    </LinkContainer> )
+                  : (
+                    <>
+                      <LinkContainer to="/productlist/seller">
+                        <NavDropdown.Item className='dropdown-item'>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orderlist/seller">
+                        <NavDropdown.Item className='dropdown-item'>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                    </>
+                  )}
+                  <NavDropdown.Item className='dropdown-item-signout' onClick={signoutHandler}>
+                    Sign out
+                  </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to='/signin'>
@@ -60,16 +69,6 @@ export default function Header() {
                     <i className='fas fa-user mr-2'/>Sign in
                   </Nav.Link>
                 </LinkContainer>
-              )}
-              {userInfo && userInfo.isSeller && (
-                <NavDropdown title="Seller" id="sellerMenu">
-                  <LinkContainer to="/productlist/seller">
-                    <NavDropdown.Item className='dropdown-item'>Products</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/orderlist/seller">
-                    <NavDropdown.Item className='dropdown-item'>Orders</NavDropdown.Item>
-                  </LinkContainer>
-                </NavDropdown>
               )}
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminMenu'>
