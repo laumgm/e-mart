@@ -46,6 +46,10 @@ footer{
   border-radius: 0px !important;
 }
 
+/* .success{
+  color: green;
+} */
+
 .active-page{
   background-color: gray;
 }
@@ -81,9 +85,6 @@ footer{
   max-width: 40rem;
   width: 100%;
 }
-
-
-
 
 .row{
   display: flex;
@@ -130,19 +131,6 @@ footer{
   background-size: cover;
   align-self: center;
 } */
-
-.card-body{
-  padding: 1rem;
-}
-
-.card-body > * {
-  color: rgba(0, 0, 0, 0.507);
-  margin-bottom: 0.5rem;
-}
-
-.card-body h2:hover{
-  color: rgba(1, 70, 17, 0.562);
-}
 
 .checkout-steps > div {
   border-top: 0.3rem #c0c0c0 solid;
