@@ -38,7 +38,7 @@ export default function CartScreen(props) {
           <Col>
             {cartItems.length === 0 ? (
               <MessageBox variant='danger'>
-                Cart is empty. <Link to="/">Go Shopping</Link>
+                Cart is empty. <Link to="/"><b>Go Shopping</b></Link>
               </MessageBox>
             ) : (
               <ListGroup>
