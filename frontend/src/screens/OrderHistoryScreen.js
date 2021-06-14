@@ -36,6 +36,7 @@ export default function OrderHistoryScreen(props) {
             <tr>
               <th>DATE</th>
               <th>TOTAL</th>
+              <th>PAYMENT METHOD</th>
               <th>PAID</th>
               <th>DELIVERED</th>
               <th></th>
@@ -46,6 +47,7 @@ export default function OrderHistoryScreen(props) {
               <tr key={order._id}>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>PHP {order.totalPrice.toFixed(2)}</td>
+                <td>{order.paymentMethod}</td>
                 <td>{order.isPaid ? order.paidAt.substring(0, 10) 
                   : <i className='fas fa-times' />}</td>
                 <td>

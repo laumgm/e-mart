@@ -46,10 +46,10 @@ export default function OrderListScreen(props) {
           <Table striped bordered responsive className='table-sm'>
             <thead className='text-center'>
               <tr>
-                <th>USER</th>
-                <th>SHIPPING ADDRESS</th>
                 <th>DATE</th>
+                <th>SHIPPING ADDRESS</th>
                 <th>TOTAL</th>
+                <th>PAYMENT METHOD</th>
                 <th>PAID</th>
                 <th>DELIVERED</th>
                 <th></th>
@@ -58,10 +58,10 @@ export default function OrderListScreen(props) {
             <tbody className='text-center'>
               {orders.map((order) => (
                 <tr key={order._id}>
-                  <td>{order.user.name}</td>
-                  <td>{order.shippingAddress.city}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>{order.shippingAddress.city}</td>
                   <td>{order.totalPrice.toFixed(2)}</td>
+                  <td>{order.paymentMethod}</td>
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : <i className='fas fa-times' />}</td>
                   <td>
                     {order.isDelivered
