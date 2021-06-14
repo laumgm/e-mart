@@ -4,14 +4,8 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 export default function SearchBox({ history }) {
   const [keyword, setKeyword] = useState('')
   const [category, setCategory] = useState('all')
-
-  // to do:
-  // fix onChange select category
-  // add page number on category
   
   useEffect(() => {
-    console.log('ue categ', category)
-
     if (category.trim() === 'all') {
       setKeyword('')
       history.push('/')
